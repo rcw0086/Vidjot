@@ -1,0 +1,17 @@
+{
+  "name": "vidjot",
+  "version": "1.0.0",
+  "description": "Udemy course example app to create ideas",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rob Williams",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "mongoose": "^5.7.9"
+  }
+}
