@@ -1,5 +1,6 @@
 const express    = require('express');
 const exphbs     = require('express-handlebars');
+const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const mongoose   = require('mongoose');
 
@@ -9,8 +10,14 @@ const app = express();
 mongoose.Promise = global.Promise;
 
 // Connect to Mongo
+// mongoose.connect('mongodb://localhost/vidjot-dev', {
+//   useMongoClient: true
+// })
+//   .then(() => { console.log('mongodb connected...') })
+//   .catch(err => { console.log(err) });
+
 mongoose.connect('mongodb://localhost/vidjot-dev', {
-  useMongoClient: true
+  useNewUrlParser: true
 })
   .then(() => { console.log('mongodb connected...') })
   .catch(err => { console.log(err) });
@@ -28,6 +35,9 @@ app.set('view engine', 'handlebars');
 // Body Parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Method override middleware
+app.use(methodOverride('_method'));
 
 // How middleware works
 app.use(function(req, res, next) {
@@ -102,6 +112,19 @@ app.post('/ideas', (req, res) => {
       })
       .catch(err => console.log(err));
   }
+});
+
+// Edit Form process - HTML forms cannot send PUT requests
+app.put('/ideas/:id', (req, res) => {
+  Idea.findOne({
+    _id: req.params.id
+  })
+  .then(idea => {
+    // new values
+    idea.title = req.body.title;
+    idea.details = req.body.details;
+    idea.save().then(idea => { res.redirect('/ideas'); })
+  })
 });
 
 // Server Info

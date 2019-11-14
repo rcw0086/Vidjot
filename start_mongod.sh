@@ -1,0 +1,1 @@
+mongod --dbpath ~/dev/databases/mongodb_4.2.1/data/db/ --logpath ~/dev/databases/mongodb_4.2.1/log/mongo.log --logappend
